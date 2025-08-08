@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alistair Tomori</title>
+    <style>
+        :root {
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.7);
+            --accent: #007AFF;
+            --surface: rgba(255, 255, 255, 0.08);
+        }
+
+        #matrix {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            opacity: 0.3; /* Reduced for less distraction */
+     
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            overflow: -moz-scrollbars-none;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+            overscroll-behavior: none;
+            scroll-behavior: smooth;
+
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
+            font-weight: 400;
+            line-height: 1.6;
+            letter-spacing: -0.01em;
+            background: linear-gradient(135deg, #0f0f0f, #1a1a1a);
+            color: var(--text-primary);
+            scroll-behavior: smooth;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            overscroll-behavior: none;
+        }
+
+        /* Hide scrollbar for webkit browsers */
+        html::-webkit-scrollbar,
+        body::-webkit-scrollbar {
+            display: none;
+            width: 0px;
+            background: transparent;
+        }
+
+        /* Fallback: If scrollbar still shows, make it dark */
+        html::-webkit-scrollbar-track,
+        body::-webkit-scrollbar-track {
+            background: #0f0f0f;
+        }
+
+        html::-webkit-scrollbar-thumb,
+        body::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 10px;
+        }
+
+        html::-webkit-scrollbar-thumb:hover,
+        body::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            margin-bottom: -0.5rem;
+        }
+
+        h2 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 600;
+            letter-spacing: -0.015em;
+            margin-bottom: 1rem;
+        }
+
+        section {
+            padding: 120px 20px;
+            max-width: 980px;
+            margin: 0 auto;
+            text-align: center;
+
+        }
+
+        .glass {
+            background: var(--surface);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 16px;
+            box-shadow: 
+                0 1px 40px rgba(0, 0, 0, 0.3),
+                0 0 0 0.5px rgba(255, 255, 255, 0.15);
+            border: none;
+            padding: 3rem;
+            margin: 0 auto;
+            max-width: 800px;
+        }
+
+        .hero-section {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .hero-content {
+            text-align: center;
+        }
+
+        .hero-description {
+            font-size: clamp(1rem, 2vw, 1.125rem);
+            color: var(--accent);
+            font-weight: 400;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 0.5px solid rgba(255, 255, 255, 0.1);
+            z-index: 100;
+            display: flex;
+            justify-content: center;
+            padding: 12px 0;
+        }
+
+        .navbar ul {
+            list-style: none;
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .navbar a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 17px;
+            font-weight: 400;
+            padding: 8px 16px;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .navbar a:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+        }
+
+        .project-cards {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .project-card {
+            aspect-ratio: 16/10;
+            width: 320px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 0.5px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 500;
+            font-size: 1.125rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .project-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .skill-logos {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .skill-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 12px;
+            border: 0.5px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            min-width: 100px;
+            position: relative;
+        }
+
+        .skill-item::after {
+  content: attr(data-desc);
+  position: absolute;
+  left: 50%;
+  bottom: 110%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  padding: 8px 10px;
+  border-radius: 10px;
+  background: rgba(0,0,0,0.8);
+  color: #fff;
+  font-size: 12px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .15s, transform .15s;
+  transform-origin: bottom center;
+}
+.skill-item:hover::after,
+.skill-item:focus-visible::after {
+  opacity: 1;
+  transform: translateX(-50%) translateY(-4px);
+}
+
+        .skill-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateY(-4px);
+        }
+
+        .skill-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--accent);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: white;
+            font-size: 1.25rem;
+        }
+
+        .skill-name {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .socials {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .socials a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 24px;
+            background: var(--accent);
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            font-size: 0.95rem;
+        }
+
+        .socials a:hover {
+            background: #0056CC;
+            transform: translateY(-2px);
+        }
+
+        .about-text {
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+            max-width: 680px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+
+        .about-text strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            section {
+                padding: 80px 16px;
+            }
+            
+            .glass {
+                padding: 2rem;
+            }
+            
+            .navbar ul {
+                gap: 0.25rem;
+            }
+            
+            .navbar a {
+                font-size: 16px;
+                padding: 6px 12px;
+            }
+            
+            .project-card {
+                width: 280px;
+            }
+            
+            .skill-logos {
+                gap: 1rem;
+            }
+        }
+
+        .download-resume-button {
+            display: inline-block;
+            padding: 12px 24px;
+            background: var(--accent);
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            font-size: 0.95rem;
+        }
+
+        .download-resume-button:hover {
+            background: #0056CC;
+            transform: translateY(-2px);
+        }
+
+        .project-link {
+            color: inherit;
+            text-decoration: none;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .project-link:hover {
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="matrix"></canvas>
+    
+    <nav class="navbar">
+        <ul>
+            <li><a href="#hero">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <section id="hero" class="hero-section">
+        <div class="hero-content">
+            <h1>Alistair Tomori</h1>
+            <p class="hero-description">iOS Developer • Student • AI Technologist</p>
+        </div>
+    </section>
+
+    <section id="about" class="about-section">
+        <div class="glass">
+            <h2>About Me</h2>
+            <p class="about-text">I am a 16 year old programmer from Canada. I enjoy working on my own programming projects, as well as doing work for bigger companies. I am currently focusing on <strong>iOS development</strong>, <strong>artificial intelligence</strong>, and <strong>immersive web experiences</strong>.</p>
+            <div style="margin-top: 2rem;">
+                <a href="assets/Alistair Tomori - Resume.pdf" download class="download-resume-button">Download Resume</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects" class="projects-section">
+        <h2>Featured Projects</h2>
+        <div class="project-cards">
+            <div class="project-card">
+                <a href="ai-fitness-app.html" class="project-link">AI-Powered iOS App</a>
+            </div>
+            <div class="project-card">
+                <a href="matrix-platformer.html" class="project-link">
+                    Matrix Platformer
+                </a>
+                </div>
+            <div class="project-card">
+                <span>Smart Automation</span>
+            </div>
+        </div>
+    </section>
+
+    <section id="skills" class="skills-section">
+        <div class="glass">
+            <h2>Technologies</h2>
+            <div class="skill-logos">
+                <div class="skill-item" data-desc="ES6+, DOM, Canvas, basic tooling">
+                    <div class="skill-icon">JS</div>
+                        <span class="skill-name">JavaScript</span>
+                </div>
+                <div class="skill-item" tabindex="0"
+     data-title="Python"
+     data-desc="Scripting, automation, data wrangling; NumPy/Pandas; simple Flask APIs.">
+  <div class="skill-icon">PY</div>
+  <span class="skill-name">Python</span>
+</div>
+
+<div class="skill-item" tabindex="0"
+     data-title="Swift"
+     data-desc="Native iOS with SwiftUI/UIKit, async/await, clean app architecture.">
+  <div class="skill-icon">SW</div>
+  <span class="skill-name">Swift</span>
+</div>
+
+<div class="skill-item" tabindex="0"
+     data-title="AI / ML"
+     data-desc="Core ML + PyTorch/TFLite, basic vision models, practical on-device ML.">
+  <div class="skill-icon">AI</div>
+  <span class="skill-name">AI/ML</span>
+</div>
+
+<div class="skill-item" tabindex="0"
+     data-title="Web Development"
+     data-desc="Responsive UIs with HTML/CSS/JS, Canvas work, simple Node/Express backends.">
+  <div class="skill-icon">WB</div>
+  <span class="skill-name">Web Dev</span>
+</div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact-section">
+        <div class="glass">
+            <h2>Let's Connect</h2>
+            <p class="about-text">Like what you see and want to reach out?</p>
+            <div class="socials">
+                <a href="mailto:alistair@tomori.com">Email</a>
+                <a href="https://github.com/AlistairTomori1" target="_blank">GitHub</a>
+                <a href="https://linkedin.com/in/yourusername" target="_blank">LinkedIn</a>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        const canvas = document.getElementById("matrix");
+        const ctx = canvas.getContext("2d");
+        
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        
+        const letters = "アァイィウエェカガキギクグケゲサザシジスズセゼソゾタダチヂッヅテデトドナニヌネノハバパヒビピフブプヘベペホボポマミムメモヤユヨラリルレロワンABCDEFGHIJKLMNOPQRSTUVWXYZ123456789@#$%^&*()*&^%+-/~{[|`]";
+        const fontSize = 14;
+        let columns = Math.floor(canvas.width / fontSize);
+        
+        // Track trail history for each column
+        let trails = Array.from({ length: columns }, () => []);
+        let headPositions = Array.from({ length: columns }, () => Math.random() * (canvas.height / fontSize));
+        
+        let direction = "down";
+        let lastScrollY = window.scrollY;
+        let isScrolling = false;
+        let scrollTimeout = null;
+        let accumulatedScroll = 0;
+        const scrollSensitivity = 0.03; // Lower = slower matrix movement
+        
+        // Draw one frame of the matrix
+        function drawMatrix() {
+            // Clear canvas completely each frame
+            ctx.fillStyle = "rgba(0, 0, 0, 1)";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            ctx.font = fontSize + "px monospace";
+            
+            trails.forEach((trail, i) => {
+                const x = i * fontSize;
+                
+                if (direction === "down") {
+                    // Add new character at head position
+                    const char = letters.charAt(Math.floor(Math.random() * letters.length));
+                    trail.unshift({ char, y: headPositions[i] });
+                    
+                    // Occasionally add random scattered characters to fill gaps
+                    if (Math.random() < 0.1) { // 10% chance
+                        const scatteredChar = letters.charAt(Math.floor(Math.random() * letters.length));
+                        const scatteredY = headPositions[i] - Math.floor(Math.random() * 10) - 5;
+                        trail.push({ char: scatteredChar, y: scatteredY });
+                    }
+                    
+                    // Move head position down
+                    headPositions[i]++;
+                    if (headPositions[i] > canvas.height / fontSize + 10) {
+                        headPositions[i] = -10;
+                        // Don't clear trail when resetting - keep full history
+                        // Just update all Y positions to wrap around
+                        trail.forEach(item => {
+                            item.y = item.y - (canvas.height / fontSize + 20);
+                        });
+                    }
+                } else if (direction === "up") {
+                    // Remove the head character (reverse the trail)
+                    if (trail.length > 0) {
+                        trail.shift();
+                    }
+                    
+                    // Move head position up
+                    headPositions[i]--;
+                    if (headPositions[i] < -10) {
+                        headPositions[i] = canvas.height / fontSize + 10;
+                        // Don't clear trail - wrap around
+                        trail.forEach(item => {
+                            item.y = item.y + (canvas.height / fontSize + 20);
+                        });
+                    }
+                }
+                
+                // Draw each character in the trail with appropriate brightness
+                trail.forEach((trailItem, index) => {
+                    // Only draw characters that are on screen
+                    if (trailItem.y > -2 && trailItem.y < (canvas.height / fontSize) + 2) {
+                        const brightness = Math.max(0.05, 1 - (index * 0.08)); // More gradual fade
+                        ctx.fillStyle = `rgba(0, 255, 0, ${brightness})`;
+                        ctx.fillText(trailItem.char, x, trailItem.y * fontSize);
+                    }
+                });
+            });
+        }
+        
+        // Draw initial frames to fill screen with rain
+        function initializeRain() {
+            // Initialize trails with more characters to fill screen uniformly
+            for (let col = 0; col < columns; col++) {
+                const trailLength = Math.floor(Math.random() * 20) + 15; // Longer trails
+                for (let j = 0; j < trailLength; j++) {
+                    const char = letters.charAt(Math.floor(Math.random() * letters.length));
+                    const y = headPositions[col] - j;
+                    trails[col].push({ char, y });
+                }
+            }
+            
+            // Fill gaps by adding more scattered characters
+            for (let col = 0; col < columns; col++) {
+                const screenHeight = Math.floor(canvas.height / fontSize);
+                for (let y = 0; y < screenHeight; y++) {
+                    if (Math.random() < 0.3) { // 30% chance to add scattered characters
+                        const char = letters.charAt(Math.floor(Math.random() * letters.length));
+                        trails[col].push({ char, y });
+                    }
+                }
+                // Sort by Y position to maintain proper order
+                trails[col].sort((a, b) => a.y - b.y);
+            }
+            
+            // Draw initial frame
+            drawMatrix();
+        }
+        
+        // Animation loop - based on accumulated scroll
+        function animate() {
+            requestAnimationFrame(animate);
+            if (isScrolling && Math.abs(accumulatedScroll) >= 1) {
+                const steps = Math.floor(Math.abs(accumulatedScroll));
+                accumulatedScroll -= steps * Math.sign(accumulatedScroll);
+                
+                for (let step = 0; step < steps; step++) {
+                    drawMatrix();
+                }
+            }
+        }
+        
+        // Initialize rain on load
+        initializeRain();
+        
+        // Start animation loop
+        animate();
+        
+        // Detect scroll and accumulate movement
+        window.addEventListener("scroll", () => {
+            const currentY = window.scrollY;
+            
+            // Only animate if scroll position actually changed
+            if (currentY !== lastScrollY) {
+                const deltaY = currentY - lastScrollY;
+                
+                // Accumulate scroll distance with sensitivity multiplier
+                accumulatedScroll += deltaY * scrollSensitivity;
+                
+                const newDirection = deltaY > 0 ? "down" : "up";
+                
+                // Only change direction if it's actually different
+                if (newDirection !== direction) {
+                    direction = newDirection;
+                }
+                
+                lastScrollY = currentY;
+                isScrolling = true;
+                
+                clearTimeout(scrollTimeout);
+                scrollTimeout = setTimeout(() => {
+                    isScrolling = false;
+                }, 150);
+            }
+        });
+        
+        // Handle resize
+        window.addEventListener("resize", () => {
+            resizeCanvas();
+            columns = Math.floor(canvas.width / fontSize);
+            // Reinitialize trails and head positions
+            trails = Array.from({ length: columns }, () => []);
+            headPositions = Array.from({ length: columns }, () => Math.random() * (canvas.height / fontSize));
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
