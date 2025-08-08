@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AI Fitness App – Alistair Tomori</title>
+  <style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: #000;
+    color: #fff;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+
+  .app-preview-container {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+  }
+
+  .left-panel, .right-panel {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+  }
+
+  .left-panel {
+    background-color: #111;
+  }
+
+  .app-card {
+    background: #1a1a1a;
+    border-radius: 20px;
+    padding: 2rem;
+    width: 300px;
+    text-align: center;
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.4);
+  }
+
+  .app-image {
+    width: 100%;
+    border-radius: 12px;
+    margin-bottom: -1rem;
+  }
+
+  .app-meta h2 {
+    font-size: 1.5rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .subtitle {
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  .right-panel {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    text-align: left;
+  }
+
+  .right-panel h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .description {
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.8);
+    max-width: 600px;
+    margin-bottom: 2rem;
+  }
+
+  .details p {
+    font-size: 0.95rem;
+    margin-bottom: 0.5rem;
+    color: rgba(255, 255, 255, 0.65);
+  }
+
+  .back-link {
+    margin-top: 2rem;
+    font-size: 0.95rem;
+    color: #007AFF;
+    text-decoration: none;
+  }
+
+  .back-link:hover {
+    text-decoration: underline;
+  }
+  </style>
+</head>
+<body>
+  <div class="app-preview-container">
+    <div class="left-panel">
+      <div class="app-card">
+        <img src="assets/ai-app-preview.png" alt="AI Fitness App Preview" class="app-image" />
+        <div class="app-meta">
+          <h2>AI Fitness App</h2>
+          <p class="subtitle">Your pocket-sized AI coach</p>
+        </div>
+      </div>
+    </div>
+    <div class="right-panel">
+      <h1>AI Fitness App</h1>
+      <p class="description">
+        The AI Fitness App is your intelligent workout companion. Used for generating customized routines, tracking your form in real time, and offering nutrition advice through smart scanning. Designed natively for iOS with a clean SwiftUI interface.
+      </p>
+      <div class="details">
+        <p><strong>Release:</strong> Coming Late 2025</p>
+        <p><strong>Platform:</strong> iOS</p>
+        <p><strong>Built With:</strong> Swift, CoreML, HealthKit</p>
+      </div>
+      <a class="back-link" href="index.html">← Back to Home</a>
+    </div>
+  </div>
+</body>
+</html>

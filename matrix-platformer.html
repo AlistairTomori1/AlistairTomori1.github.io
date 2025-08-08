@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Matrix Platformer – Alistair Tomori</title>
+  <style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: #000;
+    color: #fff;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+
+  .app-preview-container {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+  }
+
+  .left-panel, .right-panel {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+  }
+
+  .left-panel {
+    background-color: #111;
+  }
+
+  .app-card {
+    background: #1a1a1a;
+    border-radius: 20px;
+    padding: 2rem;
+    width: 300px;
+    text-align: center;
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.4);
+  }
+
+  .app-image {
+    width: 100%;
+    border-radius: 12px;
+    margin-bottom: -1rem;
+  }
+
+  .app-meta h2 {
+    font-size: 1.5rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .subtitle {
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  .right-panel {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    text-align: left;
+  }
+
+  .right-panel h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .description {
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.8);
+    max-width: 600px;
+    margin-bottom: 2rem;
+  }
+
+  .details p {
+    font-size: 0.95rem;
+    margin-bottom: 0.5rem;
+    color: rgba(255, 255, 255, 0.65);
+  }
+
+  .back-link {
+    margin-top: 2rem;
+    font-size: 0.95rem;
+    color: #007AFF;
+    text-decoration: none;
+  }
+
+  .back-link:hover {
+    text-decoration: underline;
+  }
+  .play-now-button {
+    display: inline-block;
+    margin-top: 1.5rem;
+    padding: 0.75rem 1.5rem;
+    background: #007AFF;
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+    border-radius: 12px;
+    transition: background 0.2s ease, transform 0.1s ease;
+  }
+  .play-now-button:hover {
+    background: #0056CC;
+  }
+  .play-now-button:active {
+    transform: scale(0.97);
+  }
+  </style>
+</head>
+<body>
+  <div class="app-preview-container">
+    <div class="left-panel">
+      <div class="app-card">
+        <img src="assets/matrix.png" alt="Matrix platformer App Preview" class="app-image" />
+        <div class="app-meta">
+          <h2>Matrix Platformer</h2>
+          <p class="subtitle">Can you make it to the end..?</p>
+          <a href="game.html" class="play-now-button">Play Now</a>
+        </div>
+      </div>
+    </div>
+    <div class="right-panel">
+      <h1>Matrix Platformer</h1>
+      <p class="description">
+        Jump across floating platforms of streaming Matrix code in this HTML5 Canvas game, built in JavaScript with minimalist visuals and tight controls.
+      <div class="details">
+        <p><strong>Release:</strong> Play it now</p>
+        <p><strong>Platform:</strong> Web based</p>
+        <p><strong>Built With:</strong> Javascript</p>
+      </div>
+      <a class="back-link" href="index.html">← Back to Home</a>
+    </div>
+  </div>
+</body>
+</html>
